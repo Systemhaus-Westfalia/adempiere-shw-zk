@@ -24,13 +24,13 @@ repositories {
             password = System.getenv("GITHUB_DEPLOY_TOKEN") ?: System.properties['deploy.token'] 
 		}
 	}
-	maven {
-    	url = "https://maven.pkg.github.com/erpya/adempiere_patch_swing"
-        credentials {
-        	username = System.getenv("GITHUB_DEPLOY_USER") ?: System.properties['deploy.user']
-            password = System.getenv("GITHUB_DEPLOY_TOKEN") ?: System.properties['deploy.token'] 
-		}
-	}
+	//maven {
+    	//url = "https://maven.pkg.github.com/erpya/adempiere_patch_swing"
+        //credentials {
+        	//username = System.getenv("GITHUB_DEPLOY_USER") ?: System.properties['deploy.user']
+            //password = System.getenv("GITHUB_DEPLOY_TOKEN") ?: System.properties['deploy.token'] 
+		//}
+	//}
 }
 
 sourceCompatibility = 1.11
