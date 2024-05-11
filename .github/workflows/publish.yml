@@ -95,8 +95,6 @@ jobs:
           unzip -j shw-zk-customizations.war -d docker/jetty/zk-ui/lib WEB-INF/lib/*.jar
 
       # install the doctl on the runner
-      - name: Check out the repo
-        uses: actions/checkout@v3
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
       - name: Set up Docker Buildx
