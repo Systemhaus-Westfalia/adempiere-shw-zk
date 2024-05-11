@@ -1,0 +1,180 @@
+apply plugin: 'java'
+apply plugin: 'war'
+apply plugin: 'de.undercouch.download'
+
+buildscript {
+  //Gradle Download plugin >>
+  repositories {
+      mavenCentral()
+      gradlePluginPortal()
+  }
+  dependencies {
+      classpath 'de.undercouch:gradle-download-task:4.1.1'
+  }
+  //Gradle Download plugin <<  
+}
+
+repositories {
+	mavenLocal()
+    mavenCentral()
+    maven {
+    	url = "https://maven.pkg.github.com/erpya/adempiere_patch"
+        credentials {
+        	username = System.getenv("GITHUB_DEPLOY_USER") ?: System.properties['deploy.user']
+            password = System.getenv("GITHUB_DEPLOY_TOKEN") ?: System.properties['deploy.token'] 
+		}
+	}
+	maven {
+    	url = "https://maven.pkg.github.com/erpya/adempiere_patch_swing"
+        credentials {
+        	username = System.getenv("GITHUB_DEPLOY_USER") ?: System.properties['deploy.user']
+            password = System.getenv("GITHUB_DEPLOY_TOKEN") ?: System.properties['deploy.token'] 
+		}
+	}
+}
+
+sourceCompatibility = 1.11
+def adempiereZKVersion = '1.0.6'
+dependencies {
+   	//	External Library
+   	implementation fileTree(
+        dir: 'lib',
+        include: [
+            '*.jar'
+        ]
+    )
+    implementation files("dependences/classes/")
+    implementation 'com.erpya:adempiere_patch.erpya_libs:3.9.4.001-1.7.8'
+    implementation 'com.erpya:adempiere_patch_swing:3.9.4.001-1.2.7'
+    
+}
+
+war {
+	duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
+    from('dependences/webuiClass/') {
+	        include 'index.zul'
+	        include 'org/compiere/images/**.*'
+	        include 'org/adempiere/plaf/icons/**.*'
+	        include 'org/compiere/plaf/sounds/**.*'
+	        include 'index.zul'
+	        include 'theme.zs'
+	        include 'timeout.zul'
+	        include 'css/**.*'
+	        include 'images/**.*'
+	        include 'images/dark/**.*'
+	        include 'theme/default/css/**.*'
+	        include 'theme/default/images/**.*'
+	        include 'theme/default/images/zk/**.*'
+	        include 'theme/default/images/zkex/layout/**.*'
+	        include 'theme/default/images/zweb/**.*'
+	        include 'theme/default/images/zul/**.*'
+	        include 'theme/default/images/zul/button/**.*'
+	        include 'theme/default/images/zul/cal/**.*'
+	        include 'theme/default/images/zul/common/**.*'
+	        include 'theme/default/images/zul/grid/**.*'
+	        include 'theme/default/images/zul/groupbox/**.*'
+	        include 'theme/default/images/zul/input/**.*'
+	        include 'theme/default/images/zul/menu/**.*'
+	        include 'theme/default/images/zul/misc/**.*'
+	        include 'theme/default/images/zul/msgbox/**.*'
+	        include 'theme/default/images/zul/paging/**.*'
+	        include 'theme/default/images/zul/popup/**.*'
+	        include 'theme/default/images/zul/slider/**.*'
+	        include 'theme/default/images/zul/sort/**.*'
+	        include 'theme/default/images/zul/splt/**.*'
+	        include 'theme/default/images/zul/tab/**.*'
+	        include 'theme/default/images/zul/tree/**.*'
+	        include 'theme/default/images/zul/vd/**.*'
+	        include 'theme/default/images/zul/wnd/**.*'
+	        include 'js/**.*'
+	        include 'css/**.*'
+	        include 'zul/**.*'
+	        include 'org/adempiere/legacy/apache/ecs/ecs.properties'
+	        include 'WEB-INF/tld/web/**.*'
+	        include 'WEB-INF/tld/zk/**.*'
+	        include 'WEB-INF/tld/zul/**.*'
+	        include 'WEB-INF/xsd/**.*'
+	        include 'WEB-INF/*.xml'
+	    }
+	    
+	    into('.patch') {
+		    from {
+		        configurations.runtimeClasspath
+		                .filter({
+		                    it.name.contains('adempiere_patch_swing')
+		                })
+		                .collect {
+		                    it.isDirectory() ? it : (zipTree(it)) 
+		                }
+		    }
+
+    	}
+}
+
+sourceSets {
+    main {
+         java {
+            srcDirs  = ['zkwebui/WEB-INF/src', 'client/src/main/java']
+         }
+         resources {
+	     	srcDir 'client/src/main/java'
+	     	include 'org/adempiere/version.properties'
+	     }
+    }
+    
+}
+
+//Get War Dependences
+task refreshDependences(){
+	file('dependences').mkdirs()
+	file('dependences/tmp/').mkdirs()
+	file('dependences/webuiClass').mkdirs()
+	doLast {
+		download {
+			src 'https://github.com/adempiere/zk-ui/releases/download/' + adempiereZKVersion + '/zk-ui.war'
+            dest 'dependences/tmp/zk-ui.war'
+            overwrite false
+        }
+        
+        copy {
+            from zipTree('dependences/tmp/zk-ui.war')
+            into 'dependences/webuiClass/'
+        }
+        
+        copy {
+	        from "dependences/webuiClass/WEB-INF/classes"
+	        into "dependences/classes"
+    	}
+    	
+    	file('dependences/webuiClass/WEB-INF/lib').deleteDir()
+    	file('dependences/classes/lib').deleteDir()
+   }
+}
+
+//Merge Patch with Build
+task patchZK(type: Copy) {
+	dependsOn war
+	def releasePath = "$buildDir/release/"
+	def libPath = "$buildDir/libs/"
+	from zipTree(libPath + project.name + ".war")
+	into (releasePath + project.name)
+   
+   	doLast {
+		copy {
+			from releasePath + project.name + "/.patch/"
+			into releasePath + project.name + "/WEB-INF/classes/"
+		}
+		file(releasePath + project.name + "/.patch/").deleteDir()
+	}
+}
+
+//Paking ZK
+task releaseZK(type: Zip) {
+	dependsOn patchZK
+	def basePath = "$buildDir/release/"
+    from (files(basePath + "adempiere_patch_zk"))
+    destinationDirectory = file(basePath)
+    archiveFileName = project.name + '.war'
+}
+
+

@@ -1,0 +1,8 @@
+/.gradle/
+/gradle/
+/bin/
+/build/
+/dependences/
+/.settings/
+/gradlew*
+gradle.properties
