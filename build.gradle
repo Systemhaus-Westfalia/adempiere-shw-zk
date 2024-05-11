@@ -18,7 +18,7 @@ repositories {
 	mavenLocal()
     mavenCentral()
     maven {
-    	url = "https://maven.pkg.github.com/erpya/adempiere_patch"
+    	url = "https://maven.pkg.github.com/Systemhaus-Westfalia/shw-customizations"
         credentials {
         	username = System.getenv("GITHUB_DEPLOY_USER") ?: System.properties['deploy.user']
             password = System.getenv("GITHUB_DEPLOY_TOKEN") ?: System.properties['deploy.token'] 
@@ -44,8 +44,8 @@ dependencies {
         ]
     )
     implementation files("dependences/classes/")
-    implementation 'com.erpya:adempiere_patch.erpya_libs:3.9.4.001-1.7.8'
-    implementation 'com.erpya:adempiere_patch_swing:3.9.4.001-1.2.7'
+    implementation 'org.shw:shw-customizations.shw_libs:1.0.1'
+    //implementation 'com.erpya:adempiere_patch_swing:3.9.4.001-1.2.7'
     
 }
 
