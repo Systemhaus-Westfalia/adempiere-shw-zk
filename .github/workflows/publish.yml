@@ -60,16 +60,16 @@ jobs:
     runs-on: ubuntu-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
-    steps:
-      - name: Download all artifacts
-        uses: actions/download-artifact@v3
+    # steps:
+    #   - name: Download all artifacts
+    #     uses: actions/download-artifact@v3
 
-      - name: Upload zip
-        uses: skx/github-action-publish-binaries@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          args: shw-zk-customizations.war/shw-zk-customizations.war
+    #   - name: Upload zip
+    #     uses: skx/github-action-publish-binaries@master
+    #     env:
+    #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    #     with:
+    #       args: shw-zk-customizations.war/shw-zk-customizations.war
   
   # Docker Build 
   build-publish-docker:
