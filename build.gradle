@@ -172,7 +172,7 @@ task patchZK(type: Copy) {
 task releaseZK(type: Zip) {
 	dependsOn patchZK
 	def basePath = "$buildDir/release/"
-    from (files(basePath + "adempiere_patch_zk"))
+    from (files(basePath + "shw-zk-customizations"))
     destinationDirectory = file(basePath)
     archiveFileName = project.name + '.war'
 }
