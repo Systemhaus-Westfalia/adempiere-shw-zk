@@ -37,7 +37,7 @@ dependencies {
         ]
     )
     implementation files("dependences/classes/")
-    implementation 'org.shw:shw-customizations.shw_libs:1.0.2'
+    implementation 'org.shw:shw-customizations.shw_libs:1.0.3'
     //implementation 'com.erpya:adempiere_patch_swing:3.9.4.001-1.2.7'
     
 }
