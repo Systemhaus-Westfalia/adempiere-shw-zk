@@ -20,13 +20,13 @@ maven {
 	}
 ```
 
-Las librerías completas son estas: `org.shw.adempiere-shw.shw_libs`
+Las librerías completas son estas: `com.shw.adempiere-shw.shw_libs`
 
 
 Como se ve en el proyecto sólo se llama a una sola librería porque ella tiene todos los paquetes base de adempiere mas los parches:
 
 ```Gradle
-implementation 'org.shw:adempiere-shw.shw_libs:1.0.1'
+implementation 'com.shw:adempiere-shw.shw_libs:1.0.1'
 ```
 
 Las imágenes del ZK con patches se publican ya automáticamente [aquí](https://hub.docker.com/r/marcalwestf/adempiere-shw-zk/tags)

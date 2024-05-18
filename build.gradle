@@ -45,7 +45,7 @@ dependencies {
         ]
     )
     implementation files("dependences/classes/")
-    implementation 'org.shw:adempiere-shw.shw_libs:1.0.4'    
+    implementation 'com.shw:adempiere-shw.shw_libs:1.0.4'    
 }
 
 war {
