@@ -18,7 +18,7 @@ repositories {
 	mavenLocal()
     mavenCentral()
     maven {
-    	url = "https://maven.pkg.github.com/Systemhaus-Westfalia/shw-customizations"
+    	url = "https://maven.pkg.github.com/Systemhaus-Westfalia/adempiere-shw"
         credentials {
         	username = System.getenv("GITHUB_DEPLOY_USER") ?: System.properties['deploy.user']
             password = System.getenv("GITHUB_DEPLOY_TOKEN") ?: System.properties['deploy.token'] 
@@ -45,7 +45,7 @@ dependencies {
         ]
     )
     implementation files("dependences/classes/")
-    implementation 'org.shw:shw-customizations.shw_libs:1.0.4'    
+    implementation 'org.shw:adempiere-shw.shw_libs:1.0.4'    
 }
 
 war {
@@ -171,7 +171,7 @@ task patchZK(type: Copy) {
 task releaseZK(type: Zip) {
 	dependsOn patchZK
 	def basePath = "$buildDir/release/"
-    from (files(basePath + "shw-zk-customizations"))
+    from (files(basePath + "adempiere-shw-zk"))
     destinationDirectory = file(basePath)
     archiveFileName = project.name + '.war'
 }

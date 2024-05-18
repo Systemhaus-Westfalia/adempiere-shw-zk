@@ -49,8 +49,8 @@ jobs:
       - name: Upload dist app zip artifact
         uses: actions/upload-artifact@v3
         with:
-          name: shw-zk-customizations.war
-          path: build/release/shw-zk-customizations.war
+          name: adempiere-shw-zk.war
+          path: build/release/adempiere-shw-zk.war
 
   # Publish Binaries
   # publish-binaries:
@@ -64,14 +64,14 @@ jobs:
   #     - name: Download build war app
   #       uses: actions/download-artifact@v3
   #       with:
-  #         name: shw-zk-customizations.war
+  #         name: adempiere-shw-zk.war
 
   #     - name: Upload zip
   #       uses: skx/github-action-publish-binaries@master
   #       env:
   #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   #       with:
-  #         args: shw-zk-customizations.war
+  #         args: adempiere-shw-zk.war
   
   # Docker Build 
   build-publish-docker:
@@ -85,14 +85,14 @@ jobs:
       - name: Download build war app
         uses: actions/download-artifact@v3
         with:
-          name: shw-zk-customizations.war
+          name: adempiere-shw-zk.war
                 
       #Prepare for Build Docker Image
       - name: Prepare build
         run: |
           mkdir -p docker/jetty/zk-ui/
-          cp shw-zk-customizations.war docker/jetty/zk-ui/zk-ui.war
-          unzip -j shw-zk-customizations.war -d docker/jetty/zk-ui/lib WEB-INF/lib/*.jar
+          cp adempiere-shw-zk.war docker/jetty/zk-ui/zk-ui.war
+          unzip -j adempiere-shw-zk.war -d docker/jetty/zk-ui/lib WEB-INF/lib/*.jar
 
       # install the doctl on the runner
       - name: Set up QEMU
