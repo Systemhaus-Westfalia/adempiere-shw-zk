@@ -35,7 +35,7 @@ repositories {
 }
 
 sourceCompatibility = 1.11
-def adempiereZKVersion = '1.1.3'
+def adempiereZKVersion = '1.2.0'
 dependencies {
    	//	External Library
    	implementation fileTree(
@@ -45,7 +45,7 @@ dependencies {
         ]
     )
     implementation files("dependences/classes/")
-    implementation 'com.shw:adempiere-shw.shw_libs:3.9.4.001-1.1.4'    
+    implementation 'com.shw:adempiere-shw.shw_libs:3.9.4.001-1.1.6'
 }
 
 war {
