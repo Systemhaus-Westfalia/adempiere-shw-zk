@@ -43,7 +43,7 @@ repositories {
 
 sourceCompatibility = 1.11
 def adempiereZKRelease = '1.2.0'
-def adempiereSHWRelease = '3.9.4.001-1.1.6'
+def adempiereSHWRelease = '3.9.4.001-1.1.7'
 dependencies {
    	//	External Library
    	implementation fileTree(
