@@ -32,6 +32,13 @@ repositories {
             password = findProperty("deployToken") ?: System.properties['deploy.token'] 
 		}
     }
+    maven {
+    	url = "https://maven.pkg.github.com/adempiere/adempiere"
+        credentials {
+        	username = findProperty("deployUsername") ?: System.properties['deploy.user']
+            password = findProperty("deployToken") ?: System.properties['deploy.token']
+		}
+	}
 }
 
 sourceCompatibility = 1.11
