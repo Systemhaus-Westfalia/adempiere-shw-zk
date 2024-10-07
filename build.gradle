@@ -42,7 +42,8 @@ repositories {
 }
 
 sourceCompatibility = 1.11
-def adempiereZKVersion = '1.2.0'
+def adempiereZKRelease = '1.2.0'
+def adempiereSHWRelease = '3.9.4.001-1.1.6'
 dependencies {
    	//	External Library
    	implementation fileTree(
@@ -52,7 +53,7 @@ dependencies {
         ]
     )
     implementation files("dependences/classes/")
-    implementation 'com.shw:adempiere-shw.shw_libs:3.9.4.001-1.1.6'
+    implementation 'com.shw:adempiere-shw.shw_libs:'+ adempiereSHWRelease
 }
 
 war {
@@ -137,7 +138,7 @@ task refreshDependences(){
 	file('dependences/webuiClass').mkdirs()
 	doLast {
 		download {
-			src 'https://github.com/adempiere/zk-ui/releases/download/' + adempiereZKVersion + '/zk-ui.war'
+			src 'https://github.com/adempiere/zk-ui/releases/download/' + adempiereZKRelease + '/zk-ui.war'
             dest 'dependences/tmp/zk-ui.war'
             overwrite false
         }
