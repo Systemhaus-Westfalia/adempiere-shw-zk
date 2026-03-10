@@ -36,7 +36,6 @@ sed -i "s|@ADEMPIERE_DB_PASSWORD@|$ADEMPIERE_DB_PASSWORD|g" $JETTY_BASE/jetty-ds
 
 
 sed -i "s|/usr/local/jetty/etc/jetty-http.xml|/usr/local/jetty/etc/jetty-http.xml /var/lib/jetty/jetty-ds.xml|g" $JETTY_BASE/jetty.start
-sed -i "s|-Djetty.base=/var/lib/jetty|-Djetty.base=/var/lib/jetty -DADEMPIERE_HOME=$ADEMPIERE_HOME|g" $JETTY_BASE/jetty.start
+sed -i "s|-Djetty.base=/var/lib/jetty|-Djetty.base=/var/lib/jetty -DADEMPIERE_HOME=$ADEMPIERE_HOME -Dorg.eclipse.jetty.LEVEL=ALL|g" $JETTY_BASE/jetty.start
 
 /docker-entrypoint.sh
-
