@@ -50,7 +50,7 @@ configurations.all {
 
 sourceCompatibility = 17
 def adempiereZKRelease = '1.2.2'
-def adempiereSHWRelease = '3.9.4.001-1.1.50'
+def adempiereSHWRelease = '3.9.4.001-1.1.51'
 dependencies {
    	//	External Library
    	implementation fileTree(
