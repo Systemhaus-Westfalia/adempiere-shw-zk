@@ -19,12 +19,12 @@ jobs:
       - name: Check out the repo
         uses: actions/checkout@v3
 
-      - name: Set up Java JDK 11
+      - name: Set up Java JDK 17
         uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
           java-package: 'jdk'
-          java-version: 11
+          java-version: 17
           architecture: x64
       
       - name: Set Main Version
@@ -47,7 +47,7 @@ jobs:
           GITHUB_DEPLOY_REPOSITORY: ${{ secrets.DEPLOY_REPOSITORY }}
 
       - name: Upload dist app zip artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: adempiere-shw-zk.war
           path: build/release/adempiere-shw-zk.war
@@ -83,7 +83,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Download build war app
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: adempiere-shw-zk.war
                 
