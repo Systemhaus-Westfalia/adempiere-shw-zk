@@ -115,13 +115,16 @@ war {
 		    from {
 		        configurations.runtimeClasspath
 		                .filter({
-		                    it.name.contains('adempiere_patch_swing')
+		                    // lsv-general classes are extracted to WEB-INF/classes via patchZK,
+		                    // ensuring they take precedence over WEB-INF/lib at runtime
+		                    // (Java EE spec: WEB-INF/classes always loads before WEB-INF/lib)
+		                    it.name.contains('lsv-general')
 		                })
 		                .collect {
-		                    it.isDirectory() ? it : (zipTree(it)) 
+		                    it.isDirectory() ? it : (zipTree(it))
 		                }
 		    }
-
+		    exclude('META-INF/**')
     	}
 }
 

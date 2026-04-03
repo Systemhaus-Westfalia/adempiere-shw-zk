@@ -1,0 +1,28 @@
+# LOCAL TESTING ONLY -- never executed by CI/CD.
+# CI/CD uses docker/jetty/Dockerfile, invoked explicitly by .github/workflows/publish.yml.
+# Docker ignores this file unless -f docker/jetty/Dockerfile.local_test is passed explicitly.
+#
+# Purpose:
+#   Build a test image locally without needing the full CI/CD environment.
+#   Takes the current production image as base and swaps only the WAR, inheriting
+#   all lib/ext JARs from the production image.
+#
+# Usage (run from the adempiere-shw-zk repository root):
+#
+#   Step 1 - build the WAR:
+#     gradle clean build && gradle releaseZK
+#
+#   Step 2 - build the test image.
+#     The base image version is read from env_template.env of adempiere-ui-gateway,
+#     so no version is hardcoded here.
+#     BASE=$(grep ADEMPIERE_ZK_IMAGE <path-to-adempiere-ui-gateway>/docker-compose/env_template.env | cut -d'"' -f2)
+#     cp build/release/adempiere-shw-zk.war docker/jetty/zk-ui/zk-ui.war
+#     docker build -f docker/jetty/Dockerfile.local_test --build-arg BASE_IMAGE=${BASE} -t ${BASE}_SHW .
+#
+#   Step 3 - deploy:
+#     Set ADEMPIERE_ZK_IMAGE="${BASE}_SHW" in env_template.env of adempiere-ui-gateway,
+#     then restart the stack: bash stop-all.sh && bash start-all.sh
+#
+ARG BASE_IMAGE
+FROM ${BASE_IMAGE}
+COPY --chown=jetty:jetty docker/jetty/zk-ui/zk-ui.war /var/lib/jetty/webapps/webui.war
