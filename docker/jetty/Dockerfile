@@ -17,9 +17,16 @@ COPY --chown=jetty:jetty docker/jetty/settings/adempiere.sh $JETTY_BASE/bin/
 COPY --chown=jetty:jetty docker/jetty/zk-ui/zk-ui.war $JETTY_BASE/webapps/webui.war
 COPY --chown=jetty:jetty docker/jetty/zk-ui/lib/*.jar $JETTY_BASE/lib/ext/
 
-USER root
-RUN	echo "Set Timezone..." && \
-	echo $TZ > /etc/timezone
+ USER root
+  RUN   echo "Set Timezone..." && \
+        echo $TZ > /etc/timezone && \
+        cd /tmp && mkdir webui-patch && cd webui-patch && \
+        jar xf $JETTY_BASE/webapps/webui.war && \
+        rm -f WEB-INF/lib/js.jar && \
+        jar cf $JETTY_BASE/webapps/webui.war . && \
+        cd / && rm -rf /tmp/webui-patch
+
+
 
 USER jetty
 # Remove slf4j-api-1.7.x bundled in WAR's lib/ext: conflicts with Jetty 10's slf4j-api-2.x, causing NOP logger and silent startup errors
