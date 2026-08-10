@@ -23,9 +23,11 @@ RUN	echo "Set Timezone..." && \
 
 USER jetty
 # Remove slf4j-api-1.7.x bundled in WAR's lib/ext: conflicts with Jetty 10's slf4j-api-2.x, causing NOP logger and silent startup errors
-RUN	rm -R $JETTY_BASE/lib/ext/javaee-api*  && \
-	rm -f $JETTY_BASE/lib/ext/slf4j-api-*.jar && \
-	chmod +x $JETTY_BASE/bin/adempiere.sh  && \
-	/generate-jetty-start.sh
+RUN   rm -R $JETTY_BASE/lib/ext/javaee-api*  && \
+        rm -f $JETTY_BASE/lib/ext/slf4j-api-*.jar && \
+        rm -f $JETTY_BASE/lib/ext/js.jar && \
+        chmod +x $JETTY_BASE/bin/adempiere.sh  && \
+        /generate-jetty-start.sh
+
 	
 ENTRYPOINT ["bin/adempiere.sh"]
