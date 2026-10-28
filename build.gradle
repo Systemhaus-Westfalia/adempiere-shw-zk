@@ -52,6 +52,7 @@ sourceCompatibility = 17
 def adempiereZKRelease = '1.2.2'
 def adempiereSHWRelease = '3.9.4.001-EI2_0.0.20'
 dependencies {
+    compileOnly 'javax.servlet:javax.servlet-api:4.0.1'
    	//	External Library
    	implementation fileTree(
         dir: 'lib',
