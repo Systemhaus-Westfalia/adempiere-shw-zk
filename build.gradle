@@ -50,7 +50,7 @@ configurations.all {
 
 sourceCompatibility = 17
 def adempiereZKRelease = '1.2.2'
-def adempiereSHWRelease = '3.9.4.001-lsv_general-1.1.1'
+def adempiereSHWRelease = '3.9.4.001-lsv_general-1.1.2'
 dependencies {
     compileOnly 'javax.servlet:javax.servlet-api:4.0.1'
    	//	External Library
