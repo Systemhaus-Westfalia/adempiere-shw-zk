@@ -540,11 +540,10 @@ public class WFactReconcile extends CustomForm
 				pstmt.setInt(index++, (Integer) fieldProduct.getValue());
 			
 			if ( fieldDateAcct.getValue() != null )
-				pstmt.setTimestamp(index++, (Timestamp) fieldDateAcct.getValue());
-			
+				pstmt.setTimestamp(index++, new Timestamp(((java.util.Date) fieldDateAcct.getValue()).getTime()));
 
 			if ( fieldDateAcct2.getValue() != null )
-				pstmt.setTimestamp(index++, (Timestamp) fieldDateAcct2.getValue());
+				pstmt.setTimestamp(index++, new Timestamp(((java.util.Date) fieldDateAcct2.getValue()).getTime()));
 			
 			
 			ResultSet rs = pstmt.executeQuery();
